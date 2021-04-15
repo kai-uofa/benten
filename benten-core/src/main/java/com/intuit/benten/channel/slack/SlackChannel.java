@@ -230,8 +230,8 @@ public class SlackChannel implements Channel {
                     String channel = slackHelperPayload.getChannel();
                     String action = slackHelperPayload.getNlpBentenMessage().getAction();
 
-                    slackRealTimeMessagingClient
-                            .sendMessage(SlackHelper.slackRTMPayload("I am working on it", slackHelperPayload.getChannel()));
+                    // slackRealTimeMessagingClient
+                    //         .sendMessage(SlackHelper.slackRTMPayload("I am working on it", slackHelperPayload.getChannel()));
                     BentenActionHandler bentenActionHandler = bentenActionHandlerFactory
                             .getActionHandlerMap().get(slackHelperPayload.getNlpBentenMessage().getAction());
 
