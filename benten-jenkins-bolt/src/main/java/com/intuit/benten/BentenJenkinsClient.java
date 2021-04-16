@@ -95,7 +95,7 @@ public class BentenJenkinsClient {
             int lastBuildNumber = job.details().getLastBuild().getNumber();
             int nextBuildNumber = job.details().getNextBuildNumber();
 
-            QueueReference queueReference = job.build();
+            QueueReference queueReference = job.build(true);
             logger.debug(job.toString());
             int waitFor = 0;
             while(job.details().isInQueue()){
