@@ -230,23 +230,29 @@ public class SlackChannel implements Channel {
                     String channel = slackHelperPayload.getChannel();
                     String action = slackHelperPayload.getNlpBentenMessage().getAction();
 
-                    // slackRealTimeMessagingClient
-                    //         .sendMessage(SlackHelper.slackRTMPayload("I am working on it", slackHelperPayload.getChannel()));
-                    BentenActionHandler bentenActionHandler = bentenActionHandlerFactory
+                    slackRealTimeMessagingClient
+                            .sendMessage(SlackHelper.slackRTMPayload("I am working on it", slackHelperPayload.getChannel()));
+
+                    try {
+                        BentenActionHandler bentenActionHandler = bentenActionHandlerFactory
                             .getActionHandlerMap().get(slackHelperPayload.getNlpBentenMessage().getAction());
 
-                    if(bentenActionHandler == null) {
-                        slackRealTimeMessagingClient
-                                .sendMessage(SlackHelper.slackRTMPayload("Sorry! I am not capable of doing that action currently :(",slackHelperPayload.getChannel()));
-                        logger.info("Unable to find an action for "+ action + " . Make sure you registered your action hadler with @ActionHandlerAnnotation" );
-                        return;
-                    }
-                    logger.info("Handling action " +  slackHelperPayload.getNlpBentenMessage().toString());
-                    BentenHandlerResponse handlerResponse =
-                            bentenActionHandler.handle(slackHelperPayload.getNlpBentenMessage());
-
-
-                    sendResponse(handlerResponse, channel, action);
+                        if(bentenActionHandler == null) {
+                            slackRealTimeMessagingClient
+                                    .sendMessage(SlackHelper.slackRTMPayload("Sorry! I am not capable of doing that action currently :(",slackHelperPayload.getChannel()));
+                            logger.info("Unable to find an action for "+ action + " . Make sure you registered your action hadler with @ActionHandlerAnnotation" );
+                            return;
+                        }
+                        logger.info("Handling action " +  slackHelperPayload.getNlpBentenMessage().toString());
+                        BentenHandlerResponse handlerResponse =
+                                bentenActionHandler.handle(slackHelperPayload.getNlpBentenMessage());
+                        
+                        // Sleep 1 sec before response
+                        Thread.sleep(1000);
+                        sendResponse(handlerResponse, channel, action);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }                    
                 }
             }
         }).exceptionally(ex ->
