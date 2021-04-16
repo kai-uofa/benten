@@ -7,6 +7,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.client.JenkinsHttpClient;
 import com.offbytwo.jenkins.model.Build;
+import com.offbytwo.jenkins.model.BuildResult;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
@@ -105,15 +106,18 @@ public class BentenJenkinsClient {
                 if(waitFor>4) return "Job is built successfully, but is in Queue";
 
             }
+
             JobWithDetails jobWithDetails =job.details();
-            if(job.details().getBuildByNumber(nextBuildNumber).details().isBuilding()) {
+            if(jobWithDetails.getBuildByNumber(nextBuildNumber).details().isBuilding()) {
                 logger.info("Jenkins job "+ jobName +" is building with Build Number: " + nextBuildNumber);
                 return "Jenkins job "+ jobName +" is building with Build Number: " + nextBuildNumber;
             }
-            else {
-                logger.info("Jenkins job is stuck for :" + jobName);
-                return "Jenkins job is stuck for :" + jobName;
-            }
+
+            // build is not building, must be something else
+            BuildResult buildResult = jobWithDetails.getBuildByNumber(nextBuildNumber).details().getResult();
+            String buildInfo = "Jenkins job " + jobName + " with Build Number " + nextBuildNumber + " has been " + buildResult.toString();
+            logger.info(buildInfo);
+            return buildInfo;
 
         } catch (Exception e) {
             logger.info("Failed to build Jenkins job with jobName: " + jobName);
