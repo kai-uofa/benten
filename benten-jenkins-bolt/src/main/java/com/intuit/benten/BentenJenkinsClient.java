@@ -87,16 +87,26 @@ public class BentenJenkinsClient {
         }
     }
 
-    public String build(String jobName){
-        logger.info("Building Jenkins job with jobName: " + jobName);
+    public String build(String jobName, String jobParams){
+        logger.info("Building Jenkins job with jobName: " + jobName + " with params: " + jobParams);
 
         try {
             Job job = jenkins.getJob(jobName);
             logger.info(jobName + " is buildable: " + job.details().isBuildable());
-            int lastBuildNumber = job.details().getLastBuild().getNumber();
             int nextBuildNumber = job.details().getNextBuildNumber();
 
-            QueueReference queueReference = job.build(true);
+            List buildParams = getBuildParams(jobName);
+            
+            QueueReference queueReference = null;
+            if (buildParams.size() < 1) {
+                queueReference = job.build(true);
+            }
+            else {
+                logger.info(jobName + " needs " + buildParams.size() + "parameters: " + buildParams);
+                // queueReference = job.build(params, true);
+                return jobName + " needs " + buildParams.size() + "parameters: " + buildParams;
+            }
+
             logger.debug(job.toString());
             int waitFor = 0;
             while(job.details().isInQueue()){
@@ -152,7 +162,6 @@ public class BentenJenkinsClient {
 
     public List<JenkinsJobBuildParameter> getBuildParams(String jobName){
         try{
-
             String jobJson = jenkinsHttpClient.get(new URI(jenkins.getJob(jobName).getUrl()).getPath());
             logger.debug("Complete jobJson: " + jobJson);
 
