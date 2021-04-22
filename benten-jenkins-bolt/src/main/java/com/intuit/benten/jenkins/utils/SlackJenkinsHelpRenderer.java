@@ -25,11 +25,16 @@ public class SlackJenkinsHelpRenderer {
                 bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsBuildJobHelp());
                 break;
             }
+            case HelpItems.JENKINS_GET_LOG:{
+                bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsGetLogHelp());
+                break;
+            }
             case HelpItems.JENKINS_HELP: {
                 bentenSlackResponse.getBentenSlackAttachments().add(renderHelp());
                 bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsJobDetailsHelp());
                 bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsSearchJobHelp());
                 bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsBuildJobHelp());
+                bentenSlackResponse.getBentenSlackAttachments().add(renderJenkinsGetLogHelp());
             }
         }
         return bentenSlackResponse;
@@ -94,6 +99,22 @@ public class SlackJenkinsHelpRenderer {
 
         BentenSlackField shorthand = new BentenSlackField("Example: ", SlackFormatter.create()
                 .preformatted("build jenkins job Benten-Env-Stability")
+                .build(),false );
+        bentenSlackAttachment.addBentenSlackField(shorthand);
+
+        return bentenSlackAttachment;
+    }
+
+    public static BentenSlackAttachment renderJenkinsGetLogHelp(){
+        BentenSlackAttachment bentenSlackAttachment = createBentenSlackAttachment("Jenkins Show Console Log",
+                "This will get the console log for the last build number of a specifc job in jenkins. ");
+
+        BentenSlackField start = new BentenSlackField("Simple Start: ", SlackFormatter.create().code("get conlose log for job")
+                .build(),false );
+        bentenSlackAttachment.addBentenSlackField(start);
+
+        BentenSlackField shorthand = new BentenSlackField("Example: ", SlackFormatter.create()
+                .preformatted("get conlose log for job Benten-Env-Stability")
                 .build(),false );
         bentenSlackAttachment.addBentenSlackField(shorthand);
 
