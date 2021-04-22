@@ -114,7 +114,6 @@ public class BentenJenkinsClient {
                 logger.info("Job in queue");
                 Thread.sleep(5000);
                 if(waitFor>4) return "Job is built successfully, but is in Queue";
-
             }
 
             JobWithDetails jobWithDetails =job.details();

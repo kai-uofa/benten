@@ -59,6 +59,7 @@ Now that you have experienced the bot, let us set up BenTen with your `own` slac
 This project has been tested in the following environments:
 - OS: MacOS Catalina (10.15.7)
 - Apache Maven 3.8.1
+- Apache Tomcat 9
 - Java version: 1.8.0_201
     - Java(TM) SE Runtime Environment (build 1.8.0_201-b09)
     - Java HotSpot(TM) 64-Bit Server VM (build 25.201-b09, mixed mode)
@@ -66,6 +67,7 @@ This project has been tested in the following environments:
 Tips for setting up:
 - Java Installation: [`https://devqa.io/brew-install-java/`](https://devqa.io/brew-install-java/)
 - Maven Installation: [`https://mkyong.com/maven/install-maven-on-mac-osx/#install-maven-manually`](https://mkyong.com/maven/install-maven-on-mac-osx/#install-maven-manually)
+- Tomcat custom JDK: [`https://www.javaer101.com/en/article/2507267.html`](https://www.javaer101.com/en/article/2507267.html)
 
 ## Setting up BenTen from binaries (recommended if you want just use existing capabilities and add custom features only specific to your organization)
 
@@ -87,15 +89,14 @@ mvn clean install -Dmaven.test.skip=true
 mvn spring-boot:run
 ```
 
-or pack it and then run with `java`/`javax` command
+or pack it and then run with Tomcat
 ```sh
 git clone https://github.com/intuit/benten
 mvn clean install -Dmaven.test.skip=true
 cd benten-starter
 mvn clean install -Dmaven.test.skip=true
-# Now pack and run
-mvn clean package spring-boot:repackage
-java -jar target/benten-starter*.war
+# Now copy the war file to Tomcat (asumming Tomcat is located at /usr/local/tomcat)
+cp ./target/benten-starter-v0.1.5.war /usr/local/tomcat/webapps/benten.war
 ```
 ## To use BenTen in your existing spring project include the below dependencies in your projects pom.xml and refer to [Setting up](https://github.com/intuit/benten/blob/master/benten-starter/src/main/java/BentenStarterApplication.java) to initialize BenTen.
 
