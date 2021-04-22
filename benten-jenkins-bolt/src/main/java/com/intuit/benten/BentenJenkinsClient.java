@@ -216,7 +216,7 @@ public class BentenJenkinsClient {
             params.put(buildParam.getName(), buildParam.getDefaultValue());
         }
 
-        String[] jobParams = stringParams.split(" ");
+        String[] jobParams = stringParams.split(",");
         for (String param : jobParams) {
             String[] temp = param.split("=");
 
