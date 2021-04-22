@@ -22,7 +22,7 @@ public class JenkinsBuildJobByJobNameActionHandler implements BentenActionHandle
 
     public BentenHandlerResponse handle(BentenMessage bentenMessage) {
         String jobName = BentenMessageHelper.getParameterAsString(bentenMessage,JenkinsActionParameters.PARAMETER_JOB_JOBNAME);
-        String jobParams = "";
+        String jobParams = BentenMessageHelper.getParameterAsString(bentenMessage,JenkinsActionParameters.PARAMETER_JOB_PARAMS);
 
         String buildJob = bentenJenkinsClient.build(jobName, jobParams);
 
