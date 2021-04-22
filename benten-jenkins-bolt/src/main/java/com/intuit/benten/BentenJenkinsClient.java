@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,19 +93,29 @@ public class BentenJenkinsClient {
 
         try {
             Job job = jenkins.getJob(jobName);
-            logger.info(jobName + " is buildable: " + job.details().isBuildable());
+            String logInfo = jobName + " is buildable: " + job.details().isBuildable();
+            logger.info(logInfo);
+
             int nextBuildNumber = job.details().getNextBuildNumber();
 
-            List buildParams = getBuildParams(jobName);
+            List<JenkinsJobBuildParameter> buildParams = getBuildParams(jobName);
             
             QueueReference queueReference = null;
             if (buildParams.size() < 1) {
+                if (jobParams != ""){
+                    logInfo = jobName + " does not need parameters but " + jobParams + " has been passed in.";
+                    logger.info(logInfo);
+                }
                 queueReference = job.build(true);
             }
             else {
-                logger.info(jobName + " needs " + buildParams.size() + "parameters: " + buildParams);
-                // queueReference = job.build(params, true);
-                return jobName + " needs " + buildParams.size() + "parameters: " + buildParams;
+                if (jobParams == ""){
+                    logInfo = jobName + " needs " + buildParams.size() + "parameters but nothing has been passed in. Commence build with default job params.";
+                    logger.info(logInfo);
+                }
+                
+                Map<String, String> params = constructJobParams(buildParams, jobParams);
+                queueReference = job.build(params, true);
             }
 
             logger.debug(job.toString());
@@ -113,20 +124,20 @@ public class BentenJenkinsClient {
                 waitFor++;
                 logger.info("Job in queue");
                 Thread.sleep(5000);
-                if(waitFor>4) return "Job is built successfully, but is in Queue";
+                if(waitFor>4) return logInfo + " Job is built successfully, but is in Queue";
             }
 
             JobWithDetails jobWithDetails =job.details();
             if(jobWithDetails.getBuildByNumber(nextBuildNumber).details().isBuilding()) {
                 logger.info("Jenkins job "+ jobName +" is building with Build Number: " + nextBuildNumber);
-                return "Jenkins job "+ jobName +" is building with Build Number: " + nextBuildNumber;
+                return logInfo + " Jenkins job "+ jobName +" is building with Build Number: " + nextBuildNumber;
             }
 
             // build is not building, must be something else
             BuildResult buildResult = jobWithDetails.getBuildByNumber(nextBuildNumber).details().getResult();
             String buildInfo = "Jenkins job " + jobName + " with Build Number " + nextBuildNumber + " has been " + buildResult.toString();
             logger.info(buildInfo);
-            return buildInfo;
+            return logInfo + " " + buildInfo;
 
         } catch (Exception e) {
             logger.info("Failed to build Jenkins job with jobName: " + jobName);
@@ -196,6 +207,27 @@ public class BentenJenkinsClient {
             jenkinsJobBuildParameters.add(jenkinsJobBuildParameter);
         });
         return jenkinsJobBuildParameters;
+    }
+
+    private Map<String, String> constructJobParams(List<JenkinsJobBuildParameter> buildParams, String stringParams){
+        Map<String, String> params = new HashMap<String, String>();
+
+        for (JenkinsJobBuildParameter buildParam : buildParams) {
+            params.put(buildParam.getName(), buildParam.getDefaultValue());
+        }
+
+        String[] jobParams = stringParams.split(" ");
+        for (String param : jobParams) {
+            String[] temp = param.split("=");
+
+            if(params.containsKey(temp[0])){
+                params.put(temp[0],temp[1]);
+            } else {
+                logger.info("Incorrect parameter input: " + temp[0]);
+            }
+        }
+
+        return params;
     }
 
     public JenkinsServer getJenkins() {
