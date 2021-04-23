@@ -67,22 +67,22 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.5</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>com.intuit.benten</groupId>
             <artifactId>benten-jira-bolt</artifactId>
             <version>${benten.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>com.intuit.benten</groupId>
             <artifactId>benten-jenkins-bolt</artifactId>
             <version>${benten.version}</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>benten-hackernews-bolt</groupId>
             <artifactId>benten-hackernews-bolt</artifactId>
             <version>${benten.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>com.intuit.benten</groupId>
             <artifactId>benten-weather-bolt</artifactId>
             <version>${benten.version}</version>
@@ -91,7 +91,7 @@
             <groupId>com.intuit.benten</groupId>
             <artifactId>benten-flickr-bolt</artifactId>
             <version>${benten.version}</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
     <build>
         <plugins>
