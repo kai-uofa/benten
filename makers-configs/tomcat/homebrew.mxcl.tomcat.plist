@@ -1,0 +1,24 @@
+<!-- How to use:
+   Copy this file to your path/to/tomcat folder -->
+   
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Disabled</key>
+    <false/>
+    <key>Label</key>
+    <string>homebrew.mxcl.tomcat</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/opt/tomcat/bin/catalina</string>
+      <string>run</string>
+    </array>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutputPath</key>
+    <string>/usr/local/opt/tomcat/libexec/logs/catalina.log</string>
+    <key>StandardErrorPath</key>
+    <string>/usr/local/opt/tomcat/libexec/logs/catalina.log</string>
+  </dict>
+</plist>

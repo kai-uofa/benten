@@ -35,3 +35,4 @@ karate.log
 #target folders
 */target/*
 *.factorypath
+.DS_Store
