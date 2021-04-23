@@ -64,11 +64,14 @@ This project has been tested in the following environments:
     - Java(TM) SE Runtime Environment (build 1.8.0_201-b09)
     - Java HotSpot(TM) 64-Bit Server VM (build 25.201-b09, mixed mode)
 
-Tips for setting up:
+Tips for environment setup:
 - Java Installation: [`https://devqa.io/brew-install-java/`](https://devqa.io/brew-install-java/)
 - Maven Installation: [`https://mkyong.com/maven/install-maven-on-mac-osx/#install-maven-manually`](https://mkyong.com/maven/install-maven-on-mac-osx/#install-maven-manually)
 - Tomcat custom JDK: [`https://www.javaer101.com/en/article/2507267.html`](https://www.javaer101.com/en/article/2507267.html)
-
+- Tomcat log for brew installation: [`https://stackoverflow.com/questions/41471615/no-catalina-out-on-macos-sierra`](https://stackoverflow.com/questions/41471615/no-catalina-out-on-macos-sierra)
+- Tomcat configurations:
+  - Port configs: [`https://docs.bitnami.com/aws/apps/reportserver/administration/change-tomcat-port/`](https://docs.bitnami.com/aws/apps/reportserver/administration/change-tomcat-port/)
+  - Users configs: [`https://tecadmin.net/set-admin-password-in-tomcat/`](https://tecadmin.net/set-admin-password-in-tomcat/)
 ## Setting up BenTen from binaries (recommended if you want just use existing capabilities and add custom features only specific to your organization)
 
 There is a maven archetype(benten-archetype) that I created that can be used to set up a skeleton project super quick. Run the below command in your terminal.
