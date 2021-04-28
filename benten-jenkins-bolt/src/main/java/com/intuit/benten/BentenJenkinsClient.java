@@ -110,7 +110,7 @@ public class BentenJenkinsClient {
             }
             else {
                 if (jobParams == ""){
-                    logInfo = jobName + " needs " + buildParams.size() + "parameters but nothing has been passed in. Commence build with default job params.";
+                    logInfo = jobName + " needs " + buildParams.size() + " parameter(s) but nothing has been passed in. Commence build with default job params.";
                     logger.info(logInfo);
                 }
                 

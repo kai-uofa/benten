@@ -247,8 +247,8 @@ public class SlackChannel implements Channel {
                         BentenHandlerResponse handlerResponse =
                                 bentenActionHandler.handle(slackHelperPayload.getNlpBentenMessage());
                         
-                        // Sleep 1 sec before response
-                        Thread.sleep(1000);
+                        // Sleep 500ms before each response
+                        Thread.sleep(500);
                         sendResponse(handlerResponse, channel, action);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
